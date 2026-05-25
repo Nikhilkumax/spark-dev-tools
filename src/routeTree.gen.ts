@@ -9,38 +9,140 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SearchRouteImport } from './routes/search'
+import { Route as RecentRouteImport } from './routes/recent'
+import { Route as FavoritesRouteImport } from './routes/favorites'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ToolsIndexRouteImport } from './routes/tools.index'
+import { Route as ToolsCategoryRouteImport } from './routes/tools.$category'
+import { Route as ToolsCategoryToolRouteImport } from './routes/tools.$category.$tool'
 
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecentRoute = RecentRouteImport.update({
+  id: '/recent',
+  path: '/recent',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FavoritesRoute = FavoritesRouteImport.update({
+  id: '/favorites',
+  path: '/favorites',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsIndexRoute = ToolsIndexRouteImport.update({
+  id: '/tools/',
+  path: '/tools/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsCategoryRoute = ToolsCategoryRouteImport.update({
+  id: '/tools/$category',
+  path: '/tools/$category',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsCategoryToolRoute = ToolsCategoryToolRouteImport.update({
+  id: '/$tool',
+  path: '/$tool',
+  getParentRoute: () => ToolsCategoryRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/favorites': typeof FavoritesRoute
+  '/recent': typeof RecentRoute
+  '/search': typeof SearchRoute
+  '/tools/$category': typeof ToolsCategoryRouteWithChildren
+  '/tools/': typeof ToolsIndexRoute
+  '/tools/$category/$tool': typeof ToolsCategoryToolRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/favorites': typeof FavoritesRoute
+  '/recent': typeof RecentRoute
+  '/search': typeof SearchRoute
+  '/tools/$category': typeof ToolsCategoryRouteWithChildren
+  '/tools': typeof ToolsIndexRoute
+  '/tools/$category/$tool': typeof ToolsCategoryToolRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/favorites': typeof FavoritesRoute
+  '/recent': typeof RecentRoute
+  '/search': typeof SearchRoute
+  '/tools/$category': typeof ToolsCategoryRouteWithChildren
+  '/tools/': typeof ToolsIndexRoute
+  '/tools/$category/$tool': typeof ToolsCategoryToolRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/favorites'
+    | '/recent'
+    | '/search'
+    | '/tools/$category'
+    | '/tools/'
+    | '/tools/$category/$tool'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/favorites'
+    | '/recent'
+    | '/search'
+    | '/tools/$category'
+    | '/tools'
+    | '/tools/$category/$tool'
+  id:
+    | '__root__'
+    | '/'
+    | '/favorites'
+    | '/recent'
+    | '/search'
+    | '/tools/$category'
+    | '/tools/'
+    | '/tools/$category/$tool'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  FavoritesRoute: typeof FavoritesRoute
+  RecentRoute: typeof RecentRoute
+  SearchRoute: typeof SearchRoute
+  ToolsCategoryRoute: typeof ToolsCategoryRouteWithChildren
+  ToolsIndexRoute: typeof ToolsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recent': {
+      id: '/recent'
+      path: '/recent'
+      fullPath: '/recent'
+      preLoaderRoute: typeof RecentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/favorites': {
+      id: '/favorites'
+      path: '/favorites'
+      fullPath: '/favorites'
+      preLoaderRoute: typeof FavoritesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,12 +150,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tools/': {
+      id: '/tools/'
+      path: '/tools'
+      fullPath: '/tools/'
+      preLoaderRoute: typeof ToolsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/$category': {
+      id: '/tools/$category'
+      path: '/tools/$category'
+      fullPath: '/tools/$category'
+      preLoaderRoute: typeof ToolsCategoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/$category/$tool': {
+      id: '/tools/$category/$tool'
+      path: '/$tool'
+      fullPath: '/tools/$category/$tool'
+      preLoaderRoute: typeof ToolsCategoryToolRouteImport
+      parentRoute: typeof ToolsCategoryRoute
+    }
   }
 }
 
+interface ToolsCategoryRouteChildren {
+  ToolsCategoryToolRoute: typeof ToolsCategoryToolRoute
+}
+
+const ToolsCategoryRouteChildren: ToolsCategoryRouteChildren = {
+  ToolsCategoryToolRoute: ToolsCategoryToolRoute,
+}
+
+const ToolsCategoryRouteWithChildren = ToolsCategoryRoute._addFileChildren(
+  ToolsCategoryRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  FavoritesRoute: FavoritesRoute,
+  RecentRoute: RecentRoute,
+  SearchRoute: SearchRoute,
+  ToolsCategoryRoute: ToolsCategoryRouteWithChildren,
+  ToolsIndexRoute: ToolsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
