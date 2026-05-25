@@ -4,7 +4,7 @@ export function SectionHeading({
   description,
   action,
 }: {
-  eyebrow?: string;
+  eyebrow?: React.ReactNode;
   title: string;
   description?: string;
   action?: React.ReactNode;
