@@ -80,7 +80,7 @@ function Index() {
         <div className="absolute inset-0 -z-10 opacity-40" style={{ background: "var(--gradient-glow)" }} />
         <div className="mx-auto max-w-7xl px-4 sm:px-6 py-16">
           <SectionHeading
-            eyebrow={<span><Sparkles className="inline h-3 w-3 mr-1" />AI-powered</span> as any}
+            eyebrow={<><Sparkles className="inline h-3 w-3 mr-1" />AI-powered</>}
             title="AI developer utilities"
             description="Describe what you need — let AI write the regex, SQL, or commit message."
             action={
