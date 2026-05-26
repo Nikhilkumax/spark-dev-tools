@@ -1,97 +1,129 @@
 ## Goal
 
-Build the full **shell** of a premium browser-based developer tools platform — every route, every layout, every reusable component, with placeholder/empty tool interfaces. No actual tool processing logic yet. Favorites & recently-used persisted in `localStorage`. Content pages (Blog, Docs, About, Contact, Privacy, Terms) ship as styled placeholder routes with proper SEO metadata.
+Rebuild DevForge as a **tools-only** site that visually and structurally mirrors **Racira PDF** and **Racira Image Studio**: minimal, light-first SaaS look, red primary accent, a single tool-first homepage grouping cards by category, and a simple tool page template. Delete every non-tool route, section, and feature.
 
-## Stack note
+## What gets removed
 
-The project is on **TanStack Start** (not Next.js). All requested capabilities map cleanly: file-based routing in `src/routes/`, per-route `head()` for SEO, SSR built-in, Tailwind v4, shadcn/ui, Lucide, Framer Motion.
+Routes deleted entirely:
+- `blog.index.tsx`, `blog.$slug.tsx`
+- `docs.index.tsx`, `docs.$slug.tsx`
+- `about.tsx`, `contact.tsx`, `privacy.tsx`, `terms.tsx`
+- `favorites.tsx`, `recent.tsx`
+- `search.tsx`
+- `tools.index.tsx`, `tools.$category.tsx` (home already lists everything by category)
 
-## Design system
+Components/hooks deleted:
+- `command-palette.tsx`, `use-command-palette.tsx`
+- `use-favorites.tsx`, `use-recent-tools.tsx`
+- `hero-section.tsx` (replaced by simple Racira hero), `content-page.tsx`, `empty-state.tsx`, `section-heading.tsx` (no longer needed), `category-card.tsx`
 
-Tokens defined in `src/styles.css` (oklch):
+Homepage sections removed: hero search box + CTAs, trending tools, AI strip, JSON featured collection, blog preview, FAQ, newsletter.
 
-- Background: deep charcoal `oklch(0.16 0.01 250)`
-- Surface / card: `oklch(0.20 0.012 250)` with subtle border `oklch(1 0 0 / 8%)`
-- Foreground: near-white `oklch(0.97 0.005 250)`
-- Muted text: `oklch(0.65 0.02 250)`
-- Accent (electric cyan): `oklch(0.78 0.16 210)` + glow variant
-- Radius: `--radius: 1rem` (rounded-2xl default)
-- Gradients: `--gradient-hero`, `--gradient-glow`, `--shadow-glow`
-- Font: Inter via Google Fonts in `__root.tsx`
-- Optional light mode via `.light` class + theme toggle (persists in localStorage)
+## What's left
 
-Motion: Framer Motion for hero fade-in, card hover lift/glow, page transitions, command palette enter/exit, mobile menu slide.
-
-## Route map (`src/routes/`)
-
+Routes:
 ```
-__root.tsx                  → shell, navbar, footer, theme provider, command palette mount
-index.tsx                   → Home
-tools.index.tsx             → All tools / category grid
-tools.$category.tsx         → Category page (lists tools in category)
-tools.$category.$tool.tsx   → Individual tool page (generic template w/ split panel)
-search.tsx                  → Search results (reads ?q=)
-favorites.tsx               → Dashboard / pinned tools (localStorage)
-recent.tsx                  → Recently used (localStorage)
-docs.index.tsx              → Docs landing
-docs.$slug.tsx              → Docs article (placeholder)
-blog.index.tsx              → Blog listing
-blog.$slug.tsx              → Blog post (placeholder)
-about.tsx
-contact.tsx
-privacy.tsx
-terms.tsx
+__root.tsx                  shell: Header + <Outlet /> + Footer + theme provider
+index.tsx                   tool-first homepage (hero + categorized grid)
+tools.$category.$tool.tsx   simple tool page (kept, simplified)
 ```
 
-Root `notFoundComponent` already exists → styled 404. Each route gets its own `head()` with title, description, og:title, og:description; leaves add canonical.
+Components:
+```
+site-navbar.tsx  → Header  (logo + Tools dropdown + theme toggle)
+site-footer.tsx  → Footer  (simple links row)
+tool-card.tsx    → ToolCard (Racira shape: icon tile + name + description)
+tool-page-layout.tsx → simplified tool page shell
+breadcrumbs.tsx  → kept for tool pages
+```
 
-## Reusable components (`src/components/`)
+Hooks: only `use-theme.tsx`.
 
-**Layout:** `SiteNavbar`, `SiteFooter`, `MobileMenu`, `ThemeToggle`, `CommandPalette` (Ctrl/Cmd+K, uses shadcn `command`), `Breadcrumbs`, `PageHeader`.
+## Design system rewrite (`src/styles.css`)
 
-**Tools UI:** `ToolCard`, `CategoryCard`, `ToolGrid`, `ToolPageLayout` (split input/output template), `ToolInputPanel`, `ToolOutputPanel`, `ToolActionBar` (copy/clear/download/share/favorite), `UploadZone`, `CodeEditorShell` (placeholder textarea styled like an editor), `RelatedToolsSidebar`, `KeyboardShortcutsList`.
+Switch from dark-by-default cyan to Racira's **light-first, red-primary** palette, keeping oklch:
 
-**Content blocks:** `HeroSection` (with animated grid background + floating chips), `CategoryShowcase`, `FeatureGrid`, `FAQAccordion`, `NewsletterCTA`, `BlogPreviewGrid`, `SectionHeading`, `EmptyState`, `SkeletonCard`.
+- Light (default):
+  - `--background: oklch(0.985 0 0)`
+  - `--foreground: oklch(0.21 0.03 260)`
+  - `--card: oklch(1 0 0)`, white
+  - `--primary: oklch(0.58 0.21 25)` (red)
+  - `--primary-foreground: oklch(1 0 0)`
+  - `--muted: oklch(0.97 0.005 260)`, `--muted-foreground: oklch(0.5 0.02 260)`
+  - `--border: oklch(0.92 0.005 260)`
+  - `--radius: 0.75rem`
+  - `--card-shadow`, `--card-shadow-hover`, `--header-shadow` matching Racira
+- Dark mode (`.dark` class):
+  - `--background: oklch(0.16 0.02 260)`
+  - `--card: oklch(0.22 0.02 260)`
+  - `--primary: oklch(0.62 0.22 25)` (red, slightly brighter)
+  - Borders/muted shifted accordingly
+- Font: Inter only.
+- Remove cyan gradients, glow, grid backgrounds, `text-gradient`, `bg-grid`, `hover-glow` utility (keep `card-hover` lift).
 
-**Primitives:** copy-to-clipboard button w/ toast, share button, favorite/star toggle, gradient button variant.
+`useTheme` default flips to `light`; root element class toggled accordingly.
 
-## Data
+## Tool data (`src/data/tools.ts`)
 
-`src/data/tools.ts` — single source of truth: 20 categories (JSON, Text, Encoding, Image, CSS, HTML, JavaScript, Regex, API, SEO, Security, DevOps, Network, Converter, Formatting, AI Dev, Database, Markdown, Code Beautifiers, Color) with icon, slug, description; each category lists ~5–10 tools with slug, name, description, tags. Drives navbar dropdown, category pages, tool pages, search, and command palette. Total ≈ 80–120 tool entries — every tool route resolves to the generic `ToolPageLayout` placeholder.
+Rewrite into Racira shape — flat `tools: Tool[]` plus derived `categories: string[]`:
 
-`src/hooks/`:
-- `useFavorites` — localStorage-backed set of tool slugs
-- `useRecentTools` — capped list of recently visited tool slugs
-- `useTheme` — dark/light toggle
-- `useCommandPalette` — open/close + global hotkey
+```ts
+export interface Tool {
+  name: string;
+  slug: string;
+  description: string;
+  icon: LucideIcon;
+  category: string;
+}
+```
 
-## Pages — content sketch
+Keep current tool inventory but flatten (drop the nested category object structure), with categories like: Basic, JSON & Data, Text, Encoding, Image, CSS, HTML, JavaScript, Regex, Security, Network, Converters, Markdown, Color. ~60–80 tools total. Each tool gets a Lucide icon, short one-line description, and slug used as both URL and ID.
 
-- **Home:** hero (heading + sub + search + 2 CTAs + animated grid), trending tools row, all categories grid, AI tools strip, featured collections, blog preview (3 cards), FAQ accordion, newsletter CTA.
-- **Category page:** breadcrumb, header w/ description, tool grid, related categories.
-- **Tool page (template):** breadcrumb, title + description + action bar (copy URL / favorite / share), split panel placeholder (input left, output right, action buttons in middle on desktop / stacked on mobile), tabs for "How to use / Features / FAQ / Related", related tools sidebar on desktop.
-- **Search:** input bound to `?q=`, filtered results from `tools.ts`, category chips for filtering, empty state.
-- **Favorites / Recent:** grid of saved/visited tools or empty state with CTA back to all tools.
-- **Docs / Blog / About / Contact / Privacy / Terms:** styled shells with realistic typography rhythm and a "Coming soon" / placeholder body, all SEO-tagged.
+Tool URL becomes `/tools/$category/$tool` (kept) — `category` derived from the tool's category, slugified.
+
+## Pages
+
+**Header** (`site-navbar.tsx` simplified to match Racira):
+- Sticky, blurred, `--header-shadow`.
+- Left: logo "DevForge" with red brand word.
+- Right: "Tools" dropdown (categorized 2-col grid of every tool, max-h scroll), theme toggle. No search, no command palette, no mobile mega-menu — dropdown closes on outside click and on link click; on mobile, dropdown opens full-width below the header.
+
+**Home** (`index.tsx`):
+- Hero: centered `<h1>` "All Developer Tools You Need — Fast, Simple & Free", muted subhead, no CTAs, no search.
+- For each category: `<h2>` + 4-col responsive grid of `ToolCard`s (1 / 2 / 4 cols at sm / lg).
+- No other sections.
+
+**ToolCard**: Racira shape — `Link` to the tool URL, rounded-2xl bordered card, `bg-card`, `--card-shadow` baseline with `card-hover` lift on hover; left a red-tinted square icon tile (`bg-primary/10 text-primary`), right name + description. Optional "Coming Soon" pill (we'll keep the badge mechanism but mark all tools available by default).
+
+**Tool page** (`tools.$category.$tool.tsx` + `tool-page-layout.tsx` simplified):
+- Breadcrumbs (Home › Category › Tool).
+- Header block: icon tile + h1 + description.
+- Single placeholder workspace card: upload/textarea zone + result area + action buttons (Copy, Clear, Download) — kept as a non-functional shell.
+- "Related tools" row below: 4 cards from the same category.
+- No favorites toggle, no shortcuts list, no tabs.
+
+**Footer**: one row, copyright + plain text links (kept lightweight, no newsletter/social columns).
+
+**SEO**: every kept route keeps its `head()` with route-specific title/description and canonical. JSON-LD `BreadcrumbList` stays on tool pages. Root `head()` keeps site-wide title/og defaults but no `og:image`.
 
 ## Responsiveness
 
-Mobile-first. Navbar collapses to hamburger + slide-in sheet. Tool split panel stacks vertically on mobile with sticky action bar at bottom. Touch targets ≥ 44px. Category grids: 1 col → 2 → 3 → 4 across breakpoints.
+- Container `max-w-[1200px]` to match Racira.
+- Grid: `grid-cols-1 sm:grid-cols-2 lg:grid-cols-4` with `gap-4 / gap-5`.
+- Header height `h-14`, dropdown becomes a full-width sheet under header on `sm` and below.
+- Tool page workspace stacks vertically below `md`.
 
-## SEO
+## Routing cleanup
 
-- Per-route `head()` with unique title/description/og.
-- JSON-LD `WebSite` on `__root.tsx`, `BreadcrumbList` on tool/category/blog/docs leaves.
-- Semantic HTML (`<header> <nav> <main> <article> <footer>`), single H1 per page, alt text on all images.
-- Relative canonicals (no domain set yet).
+After deleting route files, `src/routeTree.gen.ts` regenerates automatically on dev/build. Any remaining `<Link to="...">` to deleted routes is removed in the same pass (the only callers are inside the deleted homepage sections and navbar, both being rewritten).
 
-## Out of scope (explicit)
+## Out of scope
 
-- No real tool processing logic (JSON formatting, base64, etc.) — pages render the layout shell only.
-- No backend, no auth, no DB.
-- No blog/docs MDX pipeline — placeholder routes only.
-- No real og:image generation.
+- No actual tool processing logic — tool pages stay as polished UI shells.
+- No backend, auth, persistence, analytics.
+- No search page; the header dropdown is the only navigation aid.
+- No new copy for marketing pages (because there are none).
 
-## Deliverables
+## Deliverable
 
-A complete, navigable, beautiful shell where every link works, every route renders, theme toggles, command palette opens, favorites persist, and the design system is ready for individual tool logic to be dropped into the existing `ToolPageLayout` in follow-up turns.
+A focused, Racira-matched tools site: one homepage that lists every tool grouped by category, a dropdown to jump straight to any tool, a clean tool page template, light/dark toggle — and nothing else.
