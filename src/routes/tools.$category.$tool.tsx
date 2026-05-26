@@ -1,5 +1,5 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
-import { findTool, allTools } from "@/data/tools";
+import { findTool, tools } from "@/data/tools";
 import { ToolPageLayout } from "@/components/tool-page-layout";
 
 export const Route = createFileRoute("/tools/$category/$tool")({
@@ -9,8 +9,7 @@ export const Route = createFileRoute("/tools/$category/$tool")({
     return {
       toolName: result.tool.name,
       toolDescription: result.tool.description,
-      categorySlug: result.category.slug,
-      toolSlug: result.tool.slug,
+      categoryName: result.categoryName,
     };
   },
   head: ({ loaderData, params }) => ({
@@ -31,9 +30,13 @@ export const Route = createFileRoute("/tools/$category/$tool")({
               "@context": "https://schema.org",
               "@type": "BreadcrumbList",
               itemListElement: [
-                { "@type": "ListItem", position: 1, name: "Tools", item: "/tools" },
-                { "@type": "ListItem", position: 2, name: params.category, item: `/tools/${params.category}` },
-                { "@type": "ListItem", position: 3, name: loaderData.toolName, item: `/tools/${params.category}/${params.tool}` },
+                { "@type": "ListItem", position: 1, name: loaderData.categoryName, item: `/` },
+                {
+                  "@type": "ListItem",
+                  position: 2,
+                  name: loaderData.toolName,
+                  item: `/tools/${params.category}/${params.tool}`,
+                },
               ],
             }),
           },
@@ -42,13 +45,13 @@ export const Route = createFileRoute("/tools/$category/$tool")({
   }),
   component: ToolPage,
   notFoundComponent: () => (
-    <div className="mx-auto max-w-3xl px-4 py-24 text-center">
+    <div className="container-page py-24 text-center">
       <h1 className="text-2xl font-bold">Tool not found</h1>
       <p className="mt-2 text-muted-foreground">That tool doesn't exist yet.</p>
     </div>
   ),
   errorComponent: ({ error }) => (
-    <div className="mx-auto max-w-3xl px-4 py-24 text-center">
+    <div className="container-page py-24 text-center">
       <h1 className="text-2xl font-bold">Something went wrong</h1>
       <p className="mt-2 text-muted-foreground text-sm">{error.message}</p>
     </div>
@@ -58,14 +61,14 @@ export const Route = createFileRoute("/tools/$category/$tool")({
 function ToolPage() {
   const { category: catSlug, tool: toolSlug } = Route.useParams();
   const result = findTool(catSlug, toolSlug)!;
-  const related = allTools
-    .filter((t) => t.category === catSlug && t.slug !== toolSlug)
+  const related = tools
+    .filter((t) => t.category === result.categoryName && t.slug !== toolSlug)
     .slice(0, 4);
 
   return (
     <ToolPageLayout
       tool={result.tool}
-      category={result.category}
+      categoryName={result.categoryName}
       relatedTools={related}
     />
   );

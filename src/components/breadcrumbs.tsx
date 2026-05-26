@@ -6,7 +6,7 @@ export type Crumb = { label: string; to?: string; params?: Record<string, string
 
 export function Breadcrumbs({ items }: { items: Crumb[] }) {
   return (
-    <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-sm text-muted-foreground">
+    <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-sm text-muted-foreground flex-wrap">
       <Link to="/" className="flex items-center hover:text-foreground transition-colors" aria-label="Home">
         <Home className="h-3.5 w-3.5" />
       </Link>

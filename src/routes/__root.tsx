@@ -12,17 +12,15 @@ import {
 import appCss from "../styles.css?url";
 import { SiteNavbar } from "@/components/site-navbar";
 import { SiteFooter } from "@/components/site-footer";
-import { CommandPalette } from "@/components/command-palette";
-import { useCommandPalette } from "@/hooks/use-command-palette";
 import { Toaster } from "@/components/ui/sonner";
 
-const themeInitScript = `(function(){try{var t=localStorage.getItem("devtools-theme")||"dark";var r=document.documentElement;if(t==="light"){r.classList.add("light");r.classList.remove("dark");}else{r.classList.add("dark");r.classList.remove("light");}}catch(e){document.documentElement.classList.add("dark");}})();`;
+const themeInitScript = `(function(){try{var t=localStorage.getItem("devforge-theme")||"light";var r=document.documentElement;if(t==="dark"){r.classList.add("dark");r.classList.remove("light");}else{r.classList.add("light");r.classList.remove("dark");}}catch(e){document.documentElement.classList.add("light");}})();`;
 
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-gradient">404</h1>
+        <h1 className="text-7xl font-bold text-primary">404</h1>
         <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
         <p className="mt-2 text-sm text-muted-foreground">
           The page you're looking for doesn't exist or has been moved.
@@ -51,7 +49,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
           This page didn't load
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
+          Something went wrong. You can try refreshing or head back home.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
@@ -84,7 +82,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "DevForge is a premium browser-based developer tools platform. Format, encode, convert, test, and generate — 100+ tools, zero install.",
+          "All developer tools you need — JSON, regex, encoding, image, CSS, security and more. Fast, simple, and free.",
       },
       { property: "og:site_name", content: "DevForge" },
       { property: "og:type", content: "website" },
@@ -96,7 +94,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap",
       },
     ],
     scripts: [
@@ -134,18 +132,16 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-  const { open, setOpen, openPalette } = useCommandPalette();
 
   return (
     <QueryClientProvider client={queryClient}>
       <div className="flex min-h-screen flex-col">
-        <SiteNavbar onOpenCommand={openPalette} />
+        <SiteNavbar />
         <main className="flex-1">
           <Outlet />
         </main>
         <SiteFooter />
       </div>
-      <CommandPalette open={open} onOpenChange={setOpen} />
       <Toaster position="bottom-right" />
     </QueryClientProvider>
   );
