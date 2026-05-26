@@ -24,7 +24,7 @@ export const tools: Tool[] = [
   { name: "JSON Validator", slug: "json-validator", description: "Validate JSON syntax instantly.", icon: FileJson, category: "JSON & Data" },
   { name: "JSON Minifier", slug: "json-minifier", description: "Strip whitespace from JSON.", icon: Eraser, category: "JSON & Data" },
   { name: "JSON to YAML", slug: "json-to-yaml", description: "Convert JSON documents into YAML.", icon: ArrowLeftRight, category: "JSON & Data" },
-  { name: "JSON to CSV", slug: "json-to-csv", description: "Flatten JSON arrays into CSV.", icon: Table2 },
+  { name: "JSON to CSV", slug: "json-to-csv", description: "Flatten JSON arrays into CSV.", icon: Table2, category: "JSON & Data" },
   { name: "JSON Diff", slug: "json-diff", description: "Compare two JSON payloads.", icon: Diff, category: "JSON & Data" },
   { name: "YAML to JSON", slug: "yaml-to-json", description: "Convert YAML files into JSON.", icon: ArrowLeftRight, category: "JSON & Data" },
   { name: "CSV to JSON", slug: "csv-to-json", description: "Convert CSV rows into JSON.", icon: Table2, category: "JSON & Data" },
@@ -130,7 +130,7 @@ export const tools: Tool[] = [
   { name: "Robots.txt Generator", slug: "robots-txt-generator", description: "Configure crawler rules.", icon: FileText, category: "Web Utilities" },
   { name: "Cookie Inspector", slug: "cookie-inspector", description: "Inspect and decode cookies.", icon: Cookie, category: "Web Utilities" },
   { name: "Form Schema Builder", slug: "form-schema-builder", description: "Generate form JSON schemas.", icon: FormInput, category: "Web Utilities" },
-].map((t) => ({ ...t, category: (t as Tool).category ?? "JSON & Data" })) as Tool[];
+];
 
 export const categories: string[] = Array.from(new Set(tools.map((t) => t.category)));
 

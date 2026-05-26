@@ -18,9 +18,9 @@ const IndexRoute = IndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const ToolsCategoryToolRoute = ToolsCategoryToolRouteImport.update({
-  id: '/$tool',
-  path: '/$tool',
-  getParentRoute: () => ToolsCategoryRoute,
+  id: '/tools/$category/$tool',
+  path: '/tools/$category/$tool',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -46,6 +46,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ToolsCategoryToolRoute: typeof ToolsCategoryToolRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -59,27 +60,18 @@ declare module '@tanstack/react-router' {
     }
     '/tools/$category/$tool': {
       id: '/tools/$category/$tool'
-      path: '/$tool'
+      path: '/tools/$category/$tool'
       fullPath: '/tools/$category/$tool'
       preLoaderRoute: typeof ToolsCategoryToolRouteImport
-      parentRoute: typeof ToolsCategoryRoute
+      parentRoute: typeof rootRouteImport
     }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ToolsCategoryToolRoute: ToolsCategoryToolRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
