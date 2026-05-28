@@ -9,6 +9,14 @@ import {
   Wand2, FileCog, Brackets, Code, Diff, Search, ShieldHalf, Cookie,
   ListTree, Replace, Indent, Link2, QrCode, GitBranch, Tag, Eye,
   Gauge, Accessibility, FileSliders, Terminal, Move3d, Shuffle,
+  Percent, Dices, CaseSensitive, CaseLower, CaseUpper, Quote, Scissors,
+  Keyboard, Mic, Volume2, Music, Coins, Banknote, Hourglass, Timer,
+  AlarmClock, CalendarClock, MapPin, Compass, Languages, BookOpen,
+  ListChecks, CheckSquare, Equal, Sigma, Pi, Variable, Asterisk,
+  AtSign, Mail, Phone, CreditCard, Barcode, Receipt, Percent as PercentIcon,
+  Smartphone, Monitor, Maximize, Minimize, RotateCw, FlipHorizontal,
+  Sun, Moon, Contrast, Thermometer, Zap, Activity, BarChart3, PieChart,
+  Hash as HashIcon, Bookmark, Highlighter, PaintBucket, Brush,
   type LucideIcon,
 } from "lucide-react";
 
