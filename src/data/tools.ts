@@ -7,6 +7,8 @@ import {
   ArrowLeftRight, Calendar, Clock, Ruler, Calculator,
   Paintbrush, Box, Layers, Sparkles, FormInput, FileSearch, FileDown,
   Wand2, FileCog, Brackets, Code, Diff, Search, ShieldHalf, Cookie,
+  ListTree, Replace, Indent, Link2, QrCode, GitBranch, Tag, Eye,
+  Gauge, Accessibility, FileSliders, Terminal, Move3d, Shuffle,
   type LucideIcon,
 } from "lucide-react";
 
@@ -130,6 +132,116 @@ export const tools: Tool[] = [
   { name: "Robots.txt Generator", slug: "robots-txt-generator", description: "Configure crawler rules.", icon: FileText, category: "Web Utilities" },
   { name: "Cookie Inspector", slug: "cookie-inspector", description: "Inspect and decode cookies.", icon: Cookie, category: "Web Utilities" },
   { name: "Form Schema Builder", slug: "form-schema-builder", description: "Generate form JSON schemas.", icon: FormInput, category: "Web Utilities" },
+
+  // === New additions ===
+
+  // JSON & Data
+  { name: "JSON Tree Viewer", slug: "json-tree-viewer", description: "Expandable JSON inspector.", icon: ListTree, category: "JSON & Data" },
+  { name: "XML Formatter", slug: "xml-formatter", description: "Beautify and structure XML documents.", icon: FileCode2, category: "JSON & Data" },
+  { name: "XML Validator", slug: "xml-validator", description: "Validate XML syntax and structure.", icon: ShieldCheck, category: "JSON & Data" },
+  { name: "YAML Validator", slug: "yaml-validator", description: "Validate YAML files instantly.", icon: ShieldCheck, category: "JSON & Data" },
+  { name: "CSV Viewer", slug: "csv-viewer", description: "View CSV files in table format.", icon: Table2, category: "JSON & Data" },
+  { name: "CSV Formatter", slug: "csv-formatter", description: "Clean and format CSV data.", icon: Table2, category: "JSON & Data" },
+  { name: "JSON Escape / Unescape", slug: "json-escape", description: "Escape and unescape JSON strings.", icon: Code, category: "JSON & Data" },
+
+  // Text
+  { name: "Slug Generator", slug: "slug-generator", description: "Generate SEO-friendly URL slugs.", icon: Link2, category: "Text" },
+  { name: "Reading Time Calculator", slug: "reading-time", description: "Estimate reading time for content.", icon: Clock, category: "Text" },
+  { name: "Find & Replace", slug: "find-replace", description: "Large-scale text replacement.", icon: Replace, category: "Text" },
+  { name: "Remove HTML Tags", slug: "remove-html-tags", description: "Strip HTML tags from text.", icon: Eraser, category: "Text" },
+  { name: "Tab / Space Converter", slug: "tab-space-converter", description: "Convert between tabs and spaces.", icon: Indent, category: "Text" },
+
+  // Encoding
+  { name: "Unicode Converter", slug: "unicode-converter", description: "Convert Unicode characters and escapes.", icon: Type, category: "Encoding" },
+  { name: "UTF-8 Encoder / Decoder", slug: "utf8-encoder", description: "Encode and decode UTF-8.", icon: Binary, category: "Encoding" },
+  { name: "URL Parser", slug: "url-parser", description: "Break URLs into structured parts.", icon: Link2, category: "Encoding" },
+  { name: "HTML Escape / Unescape", slug: "html-escape", description: "Escape and unescape HTML entities.", icon: Code, category: "Encoding" },
+
+  // Security
+  { name: "Password Strength Checker", slug: "password-strength", description: "Validate password strength.", icon: ShieldCheck, category: "Security" },
+  { name: "JWT Expiry Checker", slug: "jwt-expiry", description: "Inspect JWT expiration instantly.", icon: Clock, category: "Security" },
+  { name: "Random API Key Generator", slug: "api-key-generator", description: "Generate development keys and tokens.", icon: KeyRound, category: "Security" },
+  { name: "SHA-512 Generator", slug: "sha512-generator", description: "Generate SHA-512 hashes.", icon: Fingerprint, category: "Security" },
+
+  // Image
+  { name: "SVG Viewer", slug: "svg-viewer", description: "Preview SVG files directly.", icon: Eye, category: "Image" },
+  { name: "SVG Minifier", slug: "svg-minifier", description: "Optimize SVG code size.", icon: Eraser, category: "Image" },
+  { name: "SVG to JSX", slug: "svg-to-jsx", description: "Convert SVG markup into React JSX.", icon: Code, category: "Image" },
+  { name: "SVG Previewer", slug: "svg-previewer", description: "Live SVG rendering playground.", icon: FileSearch, category: "Image" },
+  { name: "EXIF Viewer", slug: "exif-viewer", description: "Inspect image metadata.", icon: FileSearch, category: "Image" },
+  { name: "Image Metadata Remover", slug: "image-metadata-remover", description: "Strip metadata for privacy.", icon: Eraser, category: "Image" },
+
+  // CSS
+  { name: "CSS Grid Generator", slug: "css-grid-generator", description: "Build CSS grid layouts visually.", icon: Layers, category: "CSS" },
+  { name: "CSS Animation Generator", slug: "css-animation-generator", description: "Create CSS animations visually.", icon: Sparkles, category: "CSS" },
+  { name: "CSS Clamp Generator", slug: "css-clamp-generator", description: "Generate responsive clamp() values.", icon: Ruler, category: "CSS" },
+  { name: "CSS Loader Generator", slug: "css-loader-generator", description: "Generate loading spinners.", icon: Sparkles, category: "CSS" },
+  { name: "Tailwind Class Sorter", slug: "tailwind-class-sorter", description: "Sort Tailwind classes consistently.", icon: ArrowDownAZ, category: "CSS" },
+  { name: "Border Radius Generator", slug: "border-radius-generator", description: "Visual border radius designer.", icon: Box, category: "CSS" },
+
+  // HTML
+  { name: "Open Graph Preview", slug: "open-graph-preview", description: "Preview social sharing metadata.", icon: Eye, category: "HTML" },
+  { name: "Twitter Card Preview", slug: "twitter-card-preview", description: "Validate Twitter/X preview cards.", icon: Eye, category: "HTML" },
+  { name: "HTML Table Generator", slug: "html-table-generator", description: "Generate HTML tables visually.", icon: Table2, category: "HTML" },
+
+  // JavaScript
+  { name: "TypeScript to JavaScript", slug: "ts-to-js", description: "Transpile TypeScript to JS.", icon: ArrowLeftRight, category: "JavaScript" },
+  { name: "JS Console Playground", slug: "js-playground", description: "Run quick JavaScript snippets.", icon: Terminal, category: "JavaScript" },
+  { name: "JS Array Formatter", slug: "js-array-formatter", description: "Format JS arrays and objects cleanly.", icon: Code2, category: "JavaScript" },
+
+  // Regex
+  { name: "Regex Explainer", slug: "regex-explainer", description: "Explain regex in plain English.", icon: Regex, category: "Regex" },
+  { name: "Regex Replace Tester", slug: "regex-replace", description: "Test regex replacements live.", icon: Replace, category: "Regex" },
+
+  // Network
+  { name: "Query String Parser", slug: "query-string-parser", description: "Parse URL query parameters.", icon: Link2, category: "Network" },
+  { name: "Query String Builder", slug: "query-string-builder", description: "Generate URL query strings.", icon: Link2, category: "Network" },
+  { name: "HTTP Header Viewer", slug: "http-header-viewer", description: "Inspect request and response headers.", icon: ServerCog, category: "Network" },
+  { name: "Redirect Checker", slug: "redirect-checker", description: "Analyze redirect chains.", icon: ArrowLeftRight, category: "Network" },
+  { name: "MIME Type Checker", slug: "mime-type-checker", description: "Look up MIME content types.", icon: FileSearch, category: "Network" },
+
+  // Converters
+  { name: "Byte Converter", slug: "byte-converter", description: "Convert between KB, MB, GB, TB.", icon: Calculator, category: "Converters" },
+  { name: "File Size Converter", slug: "file-size-converter", description: "Convert file sizes across units.", icon: Calculator, category: "Converters" },
+  { name: "Aspect Ratio Calculator", slug: "aspect-ratio-calculator", description: "Compute aspect ratios for media.", icon: Move3d, category: "Converters" },
+  { name: "Timezone Converter", slug: "timezone-converter", description: "Convert times across timezones.", icon: Clock, category: "Converters" },
+
+  // Markdown
+  { name: "Markdown Editor", slug: "markdown-editor", description: "Professional markdown workspace.", icon: FileText, category: "Markdown" },
+  { name: "Markdown Formatter", slug: "markdown-formatter", description: "Clean markdown structure.", icon: Wand2, category: "Markdown" },
+  { name: "Markdown TOC Generator", slug: "markdown-toc", description: "Generate table of contents.", icon: ListOrdered, category: "Markdown" },
+  { name: "HTML to Markdown", slug: "html-to-markdown", description: "Convert HTML into markdown.", icon: ArrowLeftRight, category: "Markdown" },
+
+  // Color
+  { name: "RGBA to HEX Converter", slug: "rgba-to-hex", description: "Convert RGBA color values to HEX.", icon: ArrowLeftRight, category: "Color" },
+  { name: "HSL Converter", slug: "hsl-converter", description: "Convert to and from HSL.", icon: Palette, category: "Color" },
+  { name: "Gradient Previewer", slug: "gradient-previewer", description: "Preview and edit gradients visually.", icon: Layers, category: "Color" },
+  { name: "Glassmorphism Generator", slug: "glassmorphism-generator", description: "Design glassmorphism effects.", icon: Sparkles, category: "Color" },
+  { name: "Neumorphism Generator", slug: "neumorphism-generator", description: "Design neumorphic UI surfaces.", icon: Box, category: "Color" },
+
+  // Database
+  { name: "SQL Validator", slug: "sql-validator", description: "Validate SQL syntax.", icon: ShieldCheck, category: "Database" },
+  { name: "SQL Minifier", slug: "sql-minifier", description: "Compress SQL queries.", icon: Eraser, category: "Database" },
+  { name: "CSV to SQL", slug: "csv-to-sql", description: "Convert CSV rows into INSERT statements.", icon: Database, category: "Database" },
+  { name: "JSON to SQL", slug: "json-to-sql", description: "Convert JSON into SQL structures.", icon: Database, category: "Database" },
+
+  // Web Utilities
+  { name: "Canonical URL Generator", slug: "canonical-url-generator", description: "Generate canonical URL tags.", icon: Link2, category: "Web Utilities" },
+  { name: "Meta Tag Preview", slug: "meta-tag-preview", description: "Preview SEO metadata.", icon: Eye, category: "Web Utilities" },
+  { name: "Sitemap Validator", slug: "sitemap-validator", description: "Validate sitemap structure.", icon: ShieldCheck, category: "Web Utilities" },
+  { name: "Robots.txt Tester", slug: "robots-txt-tester", description: "Validate crawler rules.", icon: ShieldCheck, category: "Web Utilities" },
+  { name: "QR Code Generator", slug: "qr-code-generator", description: "Generate QR codes for any text.", icon: QrCode, category: "Web Utilities" },
+
+  // Git & Dev Utilities
+  { name: ".gitignore Generator", slug: "gitignore-generator", description: "Build .gitignore files quickly.", icon: GitBranch, category: "Git & Dev" },
+  { name: "Commit Message Formatter", slug: "commit-message-formatter", description: "Generate standardized commit messages.", icon: GitBranch, category: "Git & Dev" },
+  { name: "Semantic Version Generator", slug: "semver-generator", description: "Bump and validate semver versions.", icon: Tag, category: "Git & Dev" },
+  { name: "ENV Formatter", slug: "env-formatter", description: "Clean and format .env files.", icon: FileSliders, category: "Git & Dev" },
+
+  // Accessibility
+  { name: "Readability Checker", slug: "readability-checker", description: "Analyze content readability.", icon: Gauge, category: "Accessibility" },
+  { name: "Font Accessibility Tester", slug: "font-accessibility-tester", description: "Check font readability and a11y.", icon: Accessibility, category: "Accessibility" },
+  { name: "Alt Text Generator", slug: "alt-text-generator", description: "Draft accessible alt text.", icon: Accessibility, category: "Accessibility" },
 ];
 
 export const categories: string[] = Array.from(new Set(tools.map((t) => t.category)));
