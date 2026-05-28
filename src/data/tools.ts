@@ -7,6 +7,8 @@ import {
   ArrowLeftRight, Calendar, Clock, Ruler, Calculator,
   Paintbrush, Box, Layers, Sparkles, FormInput, FileSearch, FileDown,
   Wand2, FileCog, Brackets, Code, Diff, Search, ShieldHalf, Cookie,
+  ListTree, Replace, Indent, Link2, QrCode, GitBranch, Tag, Eye,
+  Gauge, Accessibility, FileSliders, Terminal, Move3d, Shuffle,
   type LucideIcon,
 } from "lucide-react";
 
