@@ -13,10 +13,10 @@ import {
   Keyboard, Mic, Volume2, Music, Coins, Banknote, Hourglass, Timer,
   AlarmClock, CalendarClock, MapPin, Compass, Languages, BookOpen,
   ListChecks, CheckSquare, Equal, Sigma, Pi, Variable, Asterisk,
-  AtSign, Mail, Phone, CreditCard, Barcode, Receipt, Percent as PercentIcon,
+  AtSign, Mail, Phone, CreditCard, Barcode, Receipt,
   Smartphone, Monitor, Maximize, Minimize, RotateCw, FlipHorizontal,
   Sun, Moon, Contrast, Thermometer, Zap, Activity, BarChart3, PieChart,
-  Hash as HashIcon, Bookmark, Highlighter, PaintBucket, Brush,
+  Bookmark, Highlighter, PaintBucket, Brush,
   type LucideIcon,
 } from "lucide-react";
 
