@@ -87,6 +87,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:site_name", content: "DevForge" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:title", content: "DevForge — Browser-based developer tools" },
+      { name: "twitter:title", content: "DevForge — Browser-based developer tools" },
+      { name: "description", content: "Dev Hub Toolkit is a modern, browser-based platform offering a suite of fast, premium developer tools." },
+      { property: "og:description", content: "Dev Hub Toolkit is a modern, browser-based platform offering a suite of fast, premium developer tools." },
+      { name: "twitter:description", content: "Dev Hub Toolkit is a modern, browser-based platform offering a suite of fast, premium developer tools." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/3d6acb61-5ab9-44bb-980e-f706f05b5e49/id-preview-172b6b81--76697a02-8529-4c5c-9507-856b38fdc7e7.lovable.app-1780755912910.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/3d6acb61-5ab9-44bb-980e-f706f05b5e49/id-preview-172b6b81--76697a02-8529-4c5c-9507-856b38fdc7e7.lovable.app-1780755912910.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
