@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { tools, categories } from "@/data/tools";
 import { ToolCard } from "@/components/tool-card";
+import { ToolSearch } from "@/components/tool-search";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -33,6 +34,9 @@ function Index() {
             Format, encode, convert, test, and generate — every tool runs in your browser.
             No signup. No upload. No friction.
           </p>
+          <div className="mt-8">
+            <ToolSearch />
+          </div>
         </div>
       </section>
 
